@@ -1,0 +1,19 @@
+{
+  "apps": [
+    {
+      "name": "basicproject",
+      "script": "./bin/www.js",
+      "node_args": "--harmony",
+      "instances": 1,
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "1G",
+      "error_file": "./temp/basicproject-err.log",
+      "out_file": "./temp/basicproject-out.log",
+      "exec_mode": "cluster_mode",
+      "log_date_format": "YYYY-MM-DD HH:mm:SS",
+      "min_uptime": "200s",
+      "max_restarts": 10
+    }
+  ]
+}
