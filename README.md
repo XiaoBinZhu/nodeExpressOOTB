@@ -8,6 +8,8 @@
 >
 > yarn pm2 // 持久化
 
+开箱即用的 nodejs express 基础模板
+
 ##### Contact himselfDonation
 
 QQ 群：720013824
