@@ -34,22 +34,4 @@ export default class users {
     messageCall.data.info = data
     resStatusCallback(res, 200, messageCall)
   }
-
-  static wxGetSessionToUserInfo (req, res) {
-    let { appid, secret, code, encryptedData, iv } = req.body
-    let messageCall = responseDefault()
-    console.log(req.body);
-    getCode2Session({ appid, secret, code }).then(session => {
-      let { session_key } = session
-      let sessionKey = session_key
-      let pc = new WXBizDataCrypt(appid, sessionKey)
-      let data = pc.decryptData(encryptedData, iv)
-      messageCall.data.info = data
-      resStatusCallback(res, 200, messageCall)
-    }).catch(err => {
-      messageCall.message = err.errcode
-      resStatusCallback(res, 404, messageCall)
-    })
-  }
 }
-// export default new users()

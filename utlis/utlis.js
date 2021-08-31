@@ -3,12 +3,10 @@ import fs from "fs";
 import { Readable } from "stream";
 import jwt from "jsonwebtoken";
 import redis from "redis";
-import dbCommon from "../config/db/pg/common.js";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import broker from "../config/rabbitmq/broker.js";
 import crypto from "crypto-js";
-const uploadPath = path.join(global.rootPath, '/uploads');
 const RedisClient = redis.createClient(global.config.redis);
 // 启动 rabbitmq
 broker.start();
@@ -40,13 +38,8 @@ export const responseDefault = () => {
 
 // 不需要token就能请求的接口
 export const whiteList = [
-  '/user/changeUserInfoVerify',
-  '/user/changeUserInfo',
-  '/user/getEncryptPass',
   '/user/login',
   '/user/logout',
-  '/user/register',
-  '/user/sms'
 ]
 
 export const mkdirsSync = (dirname) => {

@@ -22,8 +22,9 @@ app.use((req, res, next) => {
   //   let token = req.headers['access-token']
   //   jwtVerify(token).then(async (result) => {
   //     req.userInfo = result
-  //     if (await (global.config.casbin.enforce(result.role_name, req.url, req.method)) === true) {
-  //     next()
+  //     const casbin = global.config.casbin
+  //     if (await (casbin.enforce(result.role_name, req.url, req.method)) === true) {
+  //       next()
   //     } else {
   //       res.status(401).send('invalid request')
   //     }
