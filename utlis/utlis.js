@@ -138,23 +138,6 @@ export function createCode () {
 }
 
 /**
- * 去除文件名后缀
- * @return  文件名
- */
-export function splitNameSuffix (name) {
-  const reg = /\.(txt)$/
-  if (reg.test(name) === true) {
-    const fileName = name.lastIndexOf('.');
-    const newName = name.substring(0, fileName - 1)
-    return newName
-  } else {
-    const fileName = name.lastIndexOf('.');
-    const newName = name.substring(0, fileName)
-    return newName
-  }
-}
-
-/**
  * @function
  * @RenameFile
  */
@@ -207,7 +190,7 @@ export function jwtVerify (token) {
 
 // 加密方法
 export function toEncryptCode (str) {
-  var key = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var key = "0123456789ABCDEFGQIJKLMNOPQRSTEVWXYZ";
   var l = key.length;
   var a = key.split("");
   var s = "", b, b1, b2, b3;
@@ -233,7 +216,7 @@ export function fromEncryptCode (str) {
   } catch (error) {
     sessionStorage.setItem('fromCodeError', error)
   }
-  var key = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var key = "0123456789ABCDEFGQIJKLMNOPQRSTEVWXYZ";
   var l = key.length;
   var b, b1, b2, b3, d = 0, s;
   s = new Array(Math.floor(str.length / 3));
@@ -310,39 +293,4 @@ export function treeDataTranslate (data, id = 'id', pid = 'parent_id') {
     }
   }
   return res
-}
-
-
-export function casbinMethods (data) {
-  const { type, name, oldName, role_api_id, role_api_method } = data
-  return new Promise(async (resolve, reject) => {
-    try {
-      const roleApi = await dbCommon.GetFuncBySqlWord('role_api', 'id, name, api_path', '', [])
-      const casbin = global.config.casbin
-      if (type === 'edit') {
-        await casbin.removeFilteredPolicy(0, oldName);
-      } else {
-        await casbin.removeFilteredPolicy(0, name);
-      }
-      for (let i = 0; i < role_api_id.length; i++) {
-        let api
-        roleApi.map(item => {
-          if (item.id === role_api_id[i]) {
-            return api = item
-          }
-        });
-        if (role_api_method.length === 4) {
-          await casbin.addPolicy(name, api.api_path, '*')
-        } else {
-          for (let j = 0; j < role_api_method.length; j++) {
-            const method = role_api_method[j];
-            await casbin.addPolicy(name, api.api_path, method)
-          }
-        }
-      }
-      resolve('success')
-    } catch (error) {
-      reject('error')
-    }
-  })
 }

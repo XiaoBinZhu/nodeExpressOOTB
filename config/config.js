@@ -32,11 +32,11 @@ const config = {
     },
     cryptoJS: {
       // 16 digits keyStr,
-      keyStr: "123456789AbCdEfG"
+      keyStr: "123456789aBcDeFg"
     },
     jwt: {
       // Token secret key
-      keyStr: "123456789AbCdEfG"
+      keyStr: "123456789aBcDeFg"
     },
     amqp: {
       url: "amqp://127.0.0.1:5672"
