@@ -29,7 +29,7 @@ socket(server)
  */
 
 server.listen(port, () => {
-  console.log('basicProject started!');
+  console.log('node-express-ootb started!', port);
 });
 server.on('error', onError);
 server.on('listening', onListening);
