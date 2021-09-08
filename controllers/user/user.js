@@ -1,17 +1,19 @@
 import { v4 as uuidv4 } from "uuid";
 import { resStatusCallback, responseDefault } from "../../utlis/utlis.js";
-
+import wx_api from "../../config/wx/index.js";
+import wx_PublicApi from '../../utlis/wx/index.js'
 export default class users {
 
   /**
    * @param {[String]} code 
    * @return {*} session_key 
    */
-  static wxGetSessionKey (req, res) {
+  static wxLogin (req, res) {
     let messageCall = responseDefault()
-    let { code } = req.query
-    getCode2Session({ appid, secret, code }).then(session => {
-      messageCall.data.info = session
+    let { code, encryptedData  } = req.query
+    wx_api.getCode2Session({ code }).then(async session_key => {
+      let data = await wx_PublicApi.decryptUserInfoData(session_key,encryptedData, iv)
+      messageCall.data.info = data
       resStatusCallback(res, 200, messageCall)
     }).catch(err => {
       messageCall.message = err.errcode
@@ -25,12 +27,11 @@ export default class users {
    * @param {[String]} iv 
    * @return {*} EncryptedData 
    */
-  static wxEncryptedData (req, res) {
+  static async wxEncryptedData (req, res) {
     let messageCall = responseDefault()
     let { sessionKey, encryptedData, iv } = req.body
     let session_key = sessionKey
-    let pc = new WXBizDataCrypt(appid, session_key)
-    let data = pc.decryptData(encryptedData, iv)
+    let data = await wx_PublicApi.decryptUserInfoData(session_key,encryptedData, iv)
     messageCall.data.info = data
     resStatusCallback(res, 200, messageCall)
   }

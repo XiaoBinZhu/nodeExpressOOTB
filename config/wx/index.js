@@ -1,12 +1,15 @@
 'use strict';
 import request from "request"
 import qs from "qs"
+
+const { appid, secret } = global.config.weixin;
+
 export default class wx {
   static getToken (code) {
     let reqUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?';
     let params = {
-      appid: '',
-      secret: '',
+      appid: appid,
+      secret: secret,
       code: code,
       grant_type: 'authorization_code'
     };
@@ -27,7 +30,7 @@ export default class wx {
 
   static getCode2Session (data) {
     let reqUrl = 'https://api.weixin.qq.com/sns/jscode2session?';
-    let { appid, secret, code } = data
+    let { code } = data
     let params = {
       appid: appid,
       secret: secret,
